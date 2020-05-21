@@ -1,20 +1,72 @@
-<div className="search-books">
-  <div className="search-books-bar">
-    <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
-    <div className="search-books-input-wrapper">
-      {/*
-        NOTES: The search from BooksAPI is limited to a particular set of search terms.
-        You can find these search terms here:
-        https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import Book from './Book';
+import * as BooksAPI from '../BooksAPI';
 
-        However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-        you don't find a specific author or title. Every search is limited by search terms.
-      */}
-      <input type="text" placeholder="Search by title or author"/>
+class Search extends Component {
+  state = {
+    query: '',
+    queryBooks: [],
+  }
 
-    </div>
-  </div>
-  <div className="search-books-results">
-    <ol className="books-grid"></ol>
-  </div>
-</div>
+  getBooks = event => {
+    const query = event.target.value
+    this.setState({ query })
+
+    if (query) {
+      BooksAPI.search(query, 20).then(books => {
+        books.length > 0
+          ? this.setState({ queryBooks: books})
+          : this.setState({ queryBooks: []})
+      })
+    } else if (query === ''){
+      this.setState({ queryBooks: [] })
+    }
+  }
+
+  render() {
+    const { query, queryBooks } = this.state
+    const { books, changeShelf } = this.props
+
+    return (
+      <div className="search-books">
+        <div className="search-books-bar">
+          <Link className="close-search" to='/'>Close</Link>
+          <div className="search-books-input-wrapper">
+            <input 
+              type="text" 
+              placeholder="Search by title or author"
+              value={query}
+              onChange={this.getBooks}  
+            />
+          </div>
+        </div>
+        <div className="search-books-results">
+          {queryBooks.length > 0 && (
+            <div>
+              <h3>
+                Your search results are: 
+                {queryBooks.length === 1 
+                  ? <span>1 book</span>
+                  : <span>{queryBooks.length} books</span>
+                } 
+              </h3>
+              <ol className="books-grid">
+                {queryBooks.map(book => (
+                  <Book
+                    book={book}
+                    books={books}
+                    key={book.id}
+                    changeShelf={changeShelf}
+                  />
+                ))}
+              </ol>
+            </div>
+          )}
+        </div>
+      </div>
+    )
+  }
+}
+
+export default Search

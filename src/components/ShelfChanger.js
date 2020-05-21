@@ -5,7 +5,6 @@ class shelfChanger extends Component {
     this.props.changeShelf(this.props.book, event.target.value)
 
   render (){
-    console.log(this.props.changeShelf)
     const { book, books } = this.props
 
     let currentShelf = 'none'
