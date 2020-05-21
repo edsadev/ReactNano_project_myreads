@@ -21,14 +21,15 @@ class BooksApp extends React.Component {
         books: prevState.books
           .filter(b => b.id !== book.id)
           .concat(book)
-      }));
-    });
-  };
+      }))
+    })
+  }
 
   render() {
     const { books } = this.state
     return (
       <div className="app">
+        {console.log(books)}
           <Route 
             exact path='/'
             render={() => (

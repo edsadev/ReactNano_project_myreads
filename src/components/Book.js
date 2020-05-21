@@ -1,6 +1,6 @@
 import React from 'react'
 import ShelfChanger from './ShelfChanger'
-import noCoverImage from './Image/no-Cover-Image.png'
+import noCoverImage from './Image/no-cover-image.png'
 
 const Book = props => {
   const { book, books, changeShelf } = props
@@ -21,7 +21,7 @@ const Book = props => {
         <div className='book-top'>
           <div 
             className='book-cover'
-            style={{ backgroundImage: `url(${coverImg})`}}
+            style={{ backgroundImage: `url(${coverImg}`}}
           />
           <ShelfChanger book={book} books={books} changeShelf={changeShelf} />
         </div>
