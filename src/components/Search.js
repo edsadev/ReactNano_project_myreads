@@ -7,27 +7,29 @@ class Search extends Component {
   state = {
     query: '',
     queryBooks: [],
+    queryError: false
   }
 
   getBooks = event => {
     const query = event.target.value
     this.setState({ query })
 
-    if (query) {
-      BooksAPI.search(query, 20).then(books => {
-        books.length > 0
-          ? this.setState({ queryBooks: books})
-          : this.setState({ queryBooks: []})
-      })
-    } else if (query === ''){
-      this.setState({ queryBooks: [] })
-    }
+    if (query !== '') {
+      BooksAPI.search(query)
+        .then(books => {
+          books.length > 0
+            ? this.setState({ queryBooks: books, queryError: false })
+            : this.setState({ queryBooks: [], queryError: true })
+        })
+    } else if (query === '') {
+      this.setState({ queryBooks: [], queryError:false })
+    } 
   }
 
   render() {
-    const { query, queryBooks } = this.state
+    const { query, queryBooks, queryError } = this.state
     const { books, changeShelf } = this.props
-
+    console.log(queryBooks)
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -44,13 +46,7 @@ class Search extends Component {
         <div className="search-books-results">
           {queryBooks.length > 0 && (
             <div>
-              <h3>
-                Your search results are: 
-                {queryBooks.length === 1 
-                  ? <span>1 book</span>
-                  : <span>{queryBooks.length} books</span>
-                } 
-              </h3>
+              <h3>Your search results are: {queryBooks.length} books</h3>
               <ol className="books-grid">
                 {queryBooks.map(book => (
                   <Book
@@ -62,6 +58,9 @@ class Search extends Component {
                 ))}
               </ol>
             </div>
+          )}
+          {queryError && (
+            <h3>Search doesn't exist</h3>
           )}
         </div>
       </div>
