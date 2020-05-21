@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 
 class shelfChanger extends Component {
   updateShelf = event => 
-    this.props.changeShelf(this.props.book, event.tartet.value)
+    this.props.changeShelf(this.props.book, event.target.value)
 
   render (){
+    console.log(this.props.changeShelf)
     const { book, books } = this.props
 
     let currentShelf = 'none'
