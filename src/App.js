@@ -1,7 +1,7 @@
 import React from 'react'
-import { Route, Link } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
-import BookList from './components/BookList';
+import BookList from './components/BookList'
 import Search from './components/Search'
 import './App.css'
 
@@ -16,8 +16,8 @@ class BooksApp extends React.Component {
   }
 
   changeShelf = (book, shelf) => {
-    BooksAPI.update(book, shelf).then( res => {
-      book.shelf = shelf;
+    BooksAPI.update(book, shelf).then( () => {
+      book.shelf = shelf
       this.setState(prevState => ({
         books: prevState.books
           .filter(b => b.id !== book.id)
