@@ -9,17 +9,17 @@ class shelfChanger extends Component {
 
     let currentShelf = 'none'
 
-    for (let b of books){
+    books.map((b) => {
       if (b.id === book.id) {
         currentShelf = b.shelf
-        break
       }
-    }
+      return currentShelf
+    })
 
     return(
       <div className='book-shelf-changer'>
         <select onChange={this.updateShelf} defaultValue={currentShelf}>
-          <option value="none" disabled>
+          <option value="null" disabled>
             Move to...
           </option>
           <option value="currentlyReading">Currently Reading</option>

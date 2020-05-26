@@ -27,11 +27,9 @@ const Book = props => {
         </div>
         <div className='book-title'>{title}</div>
         {book.authors &&
-          book.authors.map((author, index) => (
-            <div className='book-authors' key={index}>
-              {author}
+            <div className='book-authors'>
+              {book.authors.join(', ')}
             </div>
-          ))
         }
       </div>
     </li>
